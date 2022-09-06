@@ -1,28 +1,23 @@
 float _angle=0;
-int nPlanets = floor (random(2,30));
+int nPlanets = 0;
+int maxPlanets = 100;
 
-float[] distance = new float [nPlanets];
-float[] size = new float [nPlanets];
-float[] speed = new float [nPlanets];
-color[] col = new color [nPlanets];
+float[] distance = new float [maxPlanets];
+float[] size = new float [maxPlanets];
+float[] speed = new float [maxPlanets];
+color[] col = new color [maxPlanets];
 
 void setup()
 {
   size(800,600);
-  for(int i = 0; i < nPlanets; i = i +1)
- {
-   distance[i]=random(200,500);
-   size[i]=random(30,100);
-   speed[i]=random(-2.0,2.0);
-   col[i]=color(random(255),random(255),random(255),80);
- }
  }
 
 void draw()
 {
   clearScreen();
   translate(width/2,height/2);
-  scale(0.5);
+  //scale(0.5);
+  
   aCircle(0,0,200,color(255,255));
   
   for(int i=0; i < nPlanets; i = i + 1)
@@ -33,6 +28,26 @@ void draw()
     _angle = _angle + 1;
 }
 
+void mouseClicked()
+{
+  if(nPlanets < maxPlanets)
+  {
+    float dist = dist(mouseX,mouseY,(width/2),(height/2));
+  createPlanet(nPlanets,dist);
+  nPlanets = nPlanets + 1;
+  }
+  else
+  {
+    println("No more planets available.");
+  }
+}
+    void createPlanet(int i, float dist)
+{
+   distance[i]=dist;
+   size[i]=random(30,100);
+   speed[i]=random(-2.0,2.0);
+   col[i]=color(random(255),random(255),random(255),80);
+ }
 void aPlanet(float size,float distance,float speed, color col)
 {
   pushMatrix();
