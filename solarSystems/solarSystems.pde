@@ -1,78 +1,56 @@
 float _angle=0;
+int nPlanets = floor (random(2,30));
+
+float[] distance = new float [nPlanets];
+float[] size = new float [nPlanets];
+float[] speed = new float [nPlanets];
+color[] col = new color [nPlanets];
 
 void setup()
 {
   size(800,600);
-}
+  for(int i = 0; i < nPlanets; i = i +1)
+ {
+   distance[i]=random(200,500);
+   size[i]=random(30,100);
+   speed[i]=random(-2.0,2.0);
+   col[i]=color(random(255),random(255),random(255),80);
+ }
+ }
 
 void draw()
 {
   clearScreen();
   translate(width/2,height/2);
   scale(0.5);
-  aCircle(0,0,200,255,255,255);
+  aCircle(0,0,200,color(255,255));
   
-  aPlanet(random(10,50),2,150,255,100,0);
-
-  pushMatrix();
-    rotate(radians(_angle));
-    translate(250,0);
-    aCircle(0,0,100,0,100,255);
-    //moon
-    pushMatrix();
-     rotate(radians(_angle/3));
-     translate(150,0);
-     aCircle(0,0,20,255,200,0);
-     popMatrix();
-  popMatrix();
-    
-  pushMatrix();
-    rotate(radians(_angle/2));
-    translate(150,0);
-    aCircle(0,0,50,255,100,0);
-  popMatrix();
-  //moon
-  
-  pushMatrix();
-    rotate(radians(_angle/-3));
-    translate(350,45);
-    aCircle(0,0,30,150,250,0);
-  popMatrix();
-  
-  pushMatrix();
-    rotate(radians(_angle/-5));
-    translate(550,50);
-    aCircle(0,0,110,130,10,0);
-  popMatrix();
-  aPlanet(80,-2,400,255,80,0);
-  /*pushMatrix(80,-2);
-    rotate(radians(_angle/-2));
-    translate(400,0);
-    aCircle(0,0,150,85,180,145);
-  popMatrix(); */
-  aPlanet(50,2,150,255,100,0);
+  for(int i=0; i < nPlanets; i = i + 1)
+  {
+     aPlanet(size[i],distance[i],speed[i],col[i]);
+  }
 
     _angle = _angle + 1;
 }
 
-void aPlanet(float size, float speed, float distance, int red, int green, int blue)
+void aPlanet(float size,float distance,float speed, color col)
 {
   pushMatrix();
-    rotate(radians(_angle/speed));
+    rotate(radians(_angle*speed));
     translate(distance,0);
-    aCircle(0,0,size,red,green,blue);
+    aCircle(0,0,size,col);
   popMatrix();
 }
-void aCircle(float x, float y, float d, int red, int green, int blue)
+void aCircle(float x, float y, float d, color col)
 {
   noStroke();
-  fill(color(red,green,blue));
+  fill(col);
   circle(x,y,d);
 }
 
 void clearScreen()
 {
   noStroke();
-  fill(color(0,0,0,4));
+  fill(color(0,0,0,6));
   rect(0,0,width,height);
 }
