@@ -1,35 +1,77 @@
-float d = 30;
-Sq[] mySquare = new Sq[10000];
-int nSquare = 0;
+float d = 10;
+int maxX = 0;
+int maxY = 0;
+
+int state = 0;
+
+Sq[][] mySquare = new Sq[1000][1000];
 
 void setup()
 {
   size(800,600);
-  d = width / 50;
-  for(float y = 0; y < height; y = y + d)
+  d = width / 100;
+  maxX = floor(width / d);
+  maxY = floor(height / d);
+  for(int y = 0; y < maxY; y = y + 1) 
   {
-    for(float x = 0; x < width; x = x + d)
+    for(int x = 0; x < maxX; x = x + 1)
     {
-      mySquare[nSquare] = new Sq(x,y,d);
-      nSquare = nSquare + 1;
+      mySquare[x][y] = new Sq(x,y,d);
     }
- } 
-
+  }  
 }
+
 
 void draw()
 {
-  for(int i = 0; i < nSquare; i = i + 1)
+  for(int y = 0; y < maxY; y = y + 1) 
   {
-  mySquare[i].show();
+    for(int x = 0; x < maxX; x = x + 1)
+    {
+      mySquare[x][y].show();
+    }
   }
+   
+  for(int y = 0; y < maxY; y = y + 1) 
+  {
+    for(int x = 0; x < maxX; x = x + 1)
+    {
+      if(state == 1) mySquare[x][y].liveOrDie();
+    }
+  }  
+  
+   for(int y = 0; y < maxY; y = y + 1)
+   {
+     for(int x = 0; x < maxX; x = x + 1)
+     {
+       if(state == 1) mySquare[x][y].isBlack = mySquare [x][y].nextBlack;
+     }
+   }
 }
+
 
 void mousePressed()
 {
-    for(int i = 0; i < nSquare; i = i + 1)
+  if(state == 0)
   {
-  mySquare[i].clicked(mouseX, mouseY);
+    for(int y = 0; y < maxY; y = y + 1) 
+    {
+      for(int x = 0; x < maxX; x = x + 1)
+      {
+        mySquare[x][y].clicked(mouseX,mouseY);
+      }
+    }  
   }
-  println(mouseX + ";" + mouseY);
+}
+
+void keyPressed()
+{
+  if(state==0)
+  {
+    state = 1;
+  }
+  else 
+  {
+    state = 0;
+  }
 }
